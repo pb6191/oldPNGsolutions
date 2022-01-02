@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Facebook Login JavaScript Example</title>
+<script type="text/javascript" src="html2canvas.js"></script>
+<script type="text/javascript" src="jquery-3.6.0.js"></script>
+<meta charset="UTF-8">
+</head>
+<body>
+  <div class="container" id='container' >
+
+  </div>
+  <input type='button' id='but_screenshot' value='Take screenshot' onclick='screenshot();'><br/>
+
+<script>
+
+function screenshot(){
+    html2canvas(
+      (
+         //$.get("https://cors-anywhere.herokuapp.com/https://google.com", function(data){
+    //$(this).children("div.gb_Me").html(data);})[0]
+    
+    //working
+    //$("#container").load("https://cors-anywhere.herokuapp.com/https://google.com div.gb_Me")
+
+    $("#container").load("https://cors-anywhere.herokuapp.com/https://socialsharepreview.com/?url=https://www.nytimes.com/2021/11/06/us/politics/infrastructure-black-caucus-vote.html div.social-preview-facebook")[0]
+    )
+    , {
+                allowTaint: false,
+                foreignObjectRendering: true,
+                useCORS: true
+            }
+            
+    ).then(function(canvas) {
+    document.body.appendChild(canvas);
+   });
+  }
+
+  function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+    console.log('statusChangeCallback');
+    console.log(response);                   // The current login status of the person.
+    if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+      testAPI();  
+    } else {                                 // Not logged into your webpage or we are unable to tell.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this webpage.';
+    }
+  }
+
+
+  function checkLoginState() {               // Called when a person is finished with the Login Button.
+    FB.getLoginStatus(function(response) {   // See the onlogin handler
+      statusChangeCallback(response);
+    });
+  }
+
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '456955245760231',  // specific app id needed here
+      cookie     : true,                     // Enable cookies to allow the server to access the session.
+      xfbml      : true,                     // Parse social plugins on this webpage.
+      version    : 'v12.0'           // can change the version here, Use this Graph API version for this call.
+    });
+
+
+    FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
+      statusChangeCallback(response);        // Returns the login status.
+    });
+  };
+ 
+  function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+
+  function getContents() {
+  FB.api(
+    '/',
+    'POST',
+    {"scrape":"true","id":"https://twitter.com/AltcoinDailyio/status/1456242323545755650"},
+    function(response) {
+        console.log(response.title);
+    }
+  );
+}
+
+
+</script>
+
+
+<!-- The JS SDK Login Button -->
+
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
+
+<div id="status">
+</div>
+
+<!-- Load the JS SDK asynchronously -->
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+<button type="button" onclick="getContents()">Click Me!</button>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+ <head>
+  <script type="text/javascript" src="html2canvas.js"></script>
+  <script type="text/javascript" src="jquery-3.6.0.js"></script>
+ </head>
+ <body>
+  <h1>Take screenshot of webpage with html2canvas</h1>
+  <div class="container" id='container' >
+
+  </div>
+  <input type='button' id='but_screenshot' value='Take screenshot' onclick='screenshot();'><br/>
+
+  <!-- Script -->
+  <script type='text/javascript'>
+
+  function screenshot(){
+    html2canvas(
+      (
+         //$.get("https://cors-anywhere.herokuapp.com/https://google.com", function(data){
+    //$(this).children("div.gb_Me").html(data);})[0]
+    
+    //working
+    //$("#container").load("https://cors-anywhere.herokuapp.com/https://google.com div.gb_Me")
+
+    $("#container").load("https://cors-anywhere.herokuapp.com/https://google.com div.u-borderT u-paddingTl")
+    )
+    ).then(function(canvas) {
+    document.body.appendChild(canvas);
+   });
+  }
+  </script>
+
+ </body>
+</html>
